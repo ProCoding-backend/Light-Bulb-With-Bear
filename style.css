@@ -1,0 +1,371 @@
+* {
+  box-sizing: border-box;
+}
+:root {
+  --on: 0;
+  --bg: hsl(calc(200 - (var(--on) * 160)), calc((20 + (var(--on) * 50)) * 1%), calc((20 + (var(--on) * 60)) * 1%));
+  --cord: hsl(0, 0%, calc((60 - (var(--on) * 50)) * 1%));
+  --stroke: hsl(0, 0%, calc((60 - (var(--on) * 50)) * 1%));
+  --shine: hsla(0, 0%, 100%, calc(0.75 - (var(--on) * 0.5)));
+  --cap: hsl(0, 0%, calc((40 + (var(--on) * 30)) * 1%));
+  --filament: hsl(45, calc(var(--on) * 80%), calc((25 + (var(--on) * 75)) * 1%));
+}
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+}
+.toggle-scene {
+  overflow: visible !important;
+  height: 50vmin;
+  position: absolute;
+}
+.toggle-scene__cord {
+  stroke: var(--cord);
+  cursor: move;
+}
+
+.toggle-scene__cord:nth-of-type(1) {
+  display: none;
+}
+.toggle-scene__cord:nth-of-type(2),
+.toggle-scene__cord:nth-of-type(3),
+.toggle-scene__cord:nth-of-type(4),
+.toggle-scene__cord:nth-of-type(5) {
+  display: none;
+}
+.toggle-scene__cord-end {
+  stroke: var(--cord);
+  fill: var(--cord);
+}
+.toggle-scene__dummy-cord {
+  stroke-width: 6;
+  stroke: var(--cord);
+}
+.bulb__filament {
+  stroke: var(--filament);
+}
+.bulb__shine {
+  stroke: var(--shine);
+}
+.bulb__flash {
+  stroke: #f5e0a3;
+  display: none;
+}
+.bulb__bulb {
+  stroke: var(--stroke);
+  fill: hsla(calc(180 - (95 * var(--on))), 80%, 80%, calc(0.1 + (0.4 * var(--on))));
+}
+.bulb__cap {
+  fill: var(--cap);
+}
+.bulb__cap-shine {
+  fill: var(--shine);
+}
+.bulb__cap-outline {
+  stroke: var(--stroke);
+}/* Base door style */
+.door {
+    position: absolute;
+    top: 100%;
+    left: 70%;
+    transform: translate(-50%, -100%);
+    width: 28.5%;
+    height: 90%;
+    box-sizing: border-box;
+  }
+  
+  /* Darker back door */
+  .door.darker {
+    background: #080504;
+    z-index: 0;
+  }
+  
+  /* Lighter front door */
+  .door.lighter {
+    background: #432921;
+    z-index: 1;   /* stays above darker door */
+    position: absolute;  /* make it align with darker door */
+    top: 100%;
+    left: 70%;
+    width: 28.5%;
+    transform: translate(-50%, -100%);
+    padding:3%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 3.3%;
+    box-sizing: border-box;
+    
+    overflow: hidden; /* ensure knob doesn't overflow */
+  }
+  .door.lighter.open {
+    animation: slide-in-fade 1s ease-in-out 0s 1 forwards;
+  }
+  .door.lighter.close {
+    animation: slide-in-out 1s ease-in-out 0s 1 forwards;
+  }
+
+  @keyframes slide-in-fade {
+    0% {
+      width:28.5%;
+      left: 70%;
+    }
+    1% {
+        background:#7d5a51;
+    }
+    100% {
+      width: 23.8%;
+      left: 73%;
+      background: #755148;
+    }
+  }
+  @keyframes slide-in-out {
+    0% {
+      width:23.8%;
+      left: 73%;
+    }
+    100% {
+      width: 28.5%;
+      left: 70%;
+    }
+  }
+  
+  /* Door squares (panels) */
+  .door-square {
+    width: 80%;
+    height: 90%;
+    background: transparent;
+    border: 4px solid #2b1813;
+    border-radius: 8px;
+    box-sizing: border-box;
+    z-index: 2; /* ensure above door face */
+  }
+  
+  /* Knob */
+  .knob {
+    position: absolute;
+    left: 10px;      /* knob on left side */
+    top: 48.5%;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 25px;
+    background: rgb(117, 100, 2);
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+    z-index: 3;       /* always above */
+  }
+  .face {
+    --fur: #9b6b3c;
+    --fur-light: #b88353;
+    --dark: #2b1b12;
+  
+    position: relative;
+    width: 100px;
+    height: 100px;
+    left: 20.8%; /* 50px from left */
+    z-index: -1;
+    bottom: 45px;
+    background: radial-gradient(70px 70px at 50% 45%, #a37445 0 60%, var(--fur) 61%);
+    border-radius: 50%;
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,.06),
+                0 4px 10px rgba(0,0,0,.15);
+    transform: rotate(-60deg);   /* tilt anticlockwise */
+    
+  }
+  .face.out {
+    visibility: visible;
+    animation: face-outside 1s ease-in-out 0s 1 forwards;
+  }
+  .face.in {
+    visibility: visible;
+    animation: face-inside 1s ease-in-out 0s 1 forwards; 
+  }
+
+  @keyframes face-outside {
+    0% {
+        left: 20.8%;
+  
+      
+    }
+
+    100% {
+        left: 2.4%;
+
+    }
+  }
+  
+  @keyframes face-inside {
+    0% {
+        left: 2.4%;
+
+    }
+
+    100% {
+        left: 20.8%;
+
+    }
+  }
+  /* Ears */
+  .ears::before,
+  .ears::after {
+    content: "";
+    position: absolute;
+    width: 36px; height: 36px;
+    background: var(--fur);
+    border-radius: 50%;
+    top: -8px;
+    box-shadow: inset 0 0 0 6px var(--fur),
+                inset 0 0 0 12px var(--fur-light);
+  }
+  .ears::before { left: 2px; }
+  .ears::after  { right: 2px; }
+  
+  /* Eyes (smaller + narrowed for angry look) */
+  .eye::before,
+  .eye::after {
+    content: "";
+    position: absolute;
+    width: 10px; height: 8px;
+    background: var(--dark);
+    border-radius: 50%;
+    top: 40px;
+  }
+  .eye::before { left: 28px; transform: rotate(-15deg); }
+  .eye::after  { right: 28px; transform: rotate(15deg); }
+  
+  /* Angry Eyebrows (slanted downward towards nose) */
+  .eyebrows::before,
+  .eyebrows::after {
+    content: "";
+    position: absolute;
+    width: 20px; height: 8px;
+    border-top: 3px solid var(--dark);
+    border-radius: 0;
+    top: 28px;
+  }
+  .eyebrows::before { left: 20px; transform: rotate(25deg); }
+  .eyebrows::after  { right: 20px; transform: rotate(-25deg); }
+
+  /* Nose */
+  .nose {
+    position: absolute;
+    left: 50%; top: 52px;
+    transform: translateX(-50%);
+    width: 34px; height: 24px;
+    background: var(--fur-light);
+    border-radius: 20px 20px 15px 15px;
+  }
+  .nose::before {
+    content: "";
+    position: absolute;
+    left: 50%; top: 3px;
+    transform: translateX(-50%);
+    width: 14px; height: 10px;
+    background: var(--dark);
+    border-radius: 50% 50% 40% 40%;
+  }
+  .nose::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 12px;
+    transform: translateX(-50%);
+    width: 2px; height: 6px;
+    background: var(--dark);
+    border-radius: 2px;
+  }
+  
+  /* Angry Mouth (downturned curve) */
+  .mouth {
+    position: absolute;
+    left: 50%; top: 72px;
+    transform: translateX(-50%);
+    width: 50px; height: 20px;
+  }
+  /* Arm */
+  .arm {
+    --fur: #9b6b3c;
+    --fur-light: #d3af8e;
+    --dark: #2b1b12;
+  
+    position: relative;
+    width: 46px;       /* smaller width */
+    height: 300px;      /* smaller height */
+    background: var(--fur);
+    border-radius: 30px;
+    box-shadow: inset -4px -5px 0 rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 10px;
+    left: 180px; /* 100px from left */ 
+    top: 80px;
+    z-index: -1;
+    transform: rotate(-120deg); 
+      /* tilt anticlockwise */
+  }
+  .arm.open {
+    visibility: visible;
+    animation: arm-motion 1s ease-in-out 0s 1 forwards;
+  }
+  .arm.close{
+    visibility: visible;
+    animation: arm-inside 1s ease-in-out 0s 1 forwards; 
+  }
+  @keyframes arm-motion {
+    0% {
+        left: 180px;
+        transform: rotate(-120deg); 
+      
+    }
+
+    100% {
+        left: 160px;
+        transform: rotate(-80deg);
+    }
+  }
+  @keyframes arm-inside {
+    0% {
+        left: 160px;
+      transform: rotate(-80deg);
+    }
+    1%{
+       
+    }
+    100% {
+        left: 180px;
+        visibility: hidden;
+      transform: rotate(-120deg);
+    }
+  }
+  
+  /* Paw pad */
+  .pad {
+    width: 35px;
+    height: 38px;
+    background: var(--fur-light);
+    border-radius: 50% / 60%;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+    position: absolute;
+    top: 10px;
+  }
+  .pad::before{
+    content: "";
+    position: absolute;
+    width: 35px;
+    height: 38px;
+    background: var(--fur);
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 rgb(0, 0, 0);
+    left: 3%;
+    top:-8px;
+  }
+
+
+  
+.face,.arm{
+ visibility: hidden;
+  }
+  
